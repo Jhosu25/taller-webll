@@ -1,0 +1,73 @@
+<section class="py-16 bg-[#183B4E] text-white">
+
+    <div class="max-w-7xl mx-auto px-6">
+
+        <!-- Título -->
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold">Catálogo de Vinilos</h2>
+            <p class="mt-4 text-slate-400">{{ subtitulo }}</p>
+            <p class="mt-2 text-primary font-semibold italic">Has mostrado interés en: {{ viniloSeleccionado }}</p>
+        </div>
+
+        <!-- BÚSQUEDA -->
+        <div class="max-w-3xl mx-auto mb-12">
+            <label class="block text-sm font-medium text-slate-300 mb-2">Buscar Vinilo:</label>
+
+            <input (input)="busqueda($event)" type="text" placeholder="Ej: Rock, Abbey Road..."
+                class="w-full px-5 py-4 text-white bg-white/5 backdrop-blur-md placeholder-gray-300 border border-white/20 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/40 transition"/>
+        </div>
+
+        <!-- VINILOS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+
+            @for (vinilo of vinilosFiltrados; track vinilo.id) {
+            <div
+                class="group bg-white/90 hover:bg-white backdrop-blur-lg rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-white/10 text-black">
+                <!-- Imagen -->
+                <div class="relative aspect-square overflow-hidden">
+                    <img [src]="vinilo.imagen" [alt]="vinilo.titulo" [class.grayscale]="!vinilo.disponible"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <!-- Si no está disponible -->
+                    @if (!vinilo.disponible) {
+                    <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
+                        <span class="bg-white text-black px-3 py-1 rounded-full text-xs font-bold uppercase">
+                            Próximamente
+                        </span>
+                    </div>
+                    }
+                </div>
+
+                <!-- Información -->
+                <div class="p-6">
+                    <p class="text-xs text-primary uppercase tracking-widest">{{ vinilo.artista }}</p>
+                    <h3 class="text-xl font-bold mt-1">{{ vinilo.titulo }}</h3>
+                    <p class="mt-2 text-sm text-slate-700">{{ vinilo.anio }} • {{ vinilo.generos.join(', ') }}</p>
+                    <div class="mt-4 flex justify-between items-center">
+                        <span class="text-lg font-bold">${{ vinilo.precio }}</span>
+
+                        @if (vinilo.stock > 0) {
+                        <span class="text-xs px-3 py-1 bg-green-500/20 text-green-600 rounded-full">Stock: {{ vinilo.stock }}</span>
+                        } @else {
+                        <span class="text-xs px-3 py-1 bg-red-500/20 text-red-600 rounded-full">Agotado</span>
+                        }
+                    </div>
+
+                    <!-- Botón -->
+                    <button (click)="seleccionar(vinilo.titulo)" [disabled]="!vinilo.disponible" 
+                    class="mt-6 w-full py-3 px-4 rounded-xl bg-white text-[#183B4E] font-sans uppercase tracking-wider shadow-lg transition">
+                        {{ vinilo.disponible ? 'Me interesa este vinilo' : 'No disponible' }}
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+
+        <!-- Si no hay resultados -->
+        @if (vinilosFiltrados.length === 0) {
+        <div class="text-center mt-16 text-slate-500">
+            No se encontraron vinilos que coincidan con tu búsqueda.
+        </div>
+        }
+    </div>
+    
+</section>

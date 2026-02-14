@@ -1,0 +1,78 @@
+<div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100" *ngIf="vinilo">
+
+  <!-- Encabezado -->
+  <div class="bg-gray-600 p-4">
+    <h3 class="text-white font-bold text-lg">
+      {{ vinilo.titulo }}
+    </h3>
+  </div>
+
+  <div class="p-6 space-y-6">
+
+    <!-- Imagen -->
+    <div class="relative aspect-square overflow-hidden rounded-lg">
+      <img [src]="vinilo.imagen" [alt]="vinilo.titulo" class="w-full h-full object-cover" />
+    </div>
+
+    <!-- Información -->
+    <div class="grid grid-cols-2 gap-4">
+
+      <div class="bg-gray-50 p-3 rounded-lg">
+        <p class="text-xs text-gray-400 font-bold uppercase">Artista</p>
+        <p class="text-gray-800 font-semibold">{{ vinilo.artista }}</p>
+      </div>
+
+      <div class="bg-gray-50 p-3 rounded-lg">
+        <p class="text-xs text-gray-400 font-bold uppercase">Año</p>
+        <p class="text-gray-800">{{ vinilo.anio }}</p>
+      </div>
+
+      <div class="bg-gray-50 p-3 rounded-lg">
+        <p class="text-xs text-gray-400 font-bold uppercase">Formato</p>
+        <p class="text-gray-800">{{ vinilo.formato }}</p>
+      </div>
+
+      <div class="bg-gray-50 p-3 rounded-lg">
+        <p class="text-xs text-gray-400 font-bold uppercase">Label</p>
+        <p class="text-gray-800">{{ vinilo.label }}</p>
+      </div>
+
+    </div>
+
+    <!-- Géneros -->
+    <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+      <p class="text-xs text-yellow-600 font-bold uppercase">Géneros</p>
+      <p class="text-sm text-yellow-800 italic">
+        {{ vinilo.generos.join(', ') }}
+      </p>
+    </div>
+
+    <!-- Precio y stock -->
+    <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
+      <p class="text-xs text-green-600 font-bold uppercase">Precio Oferta</p>
+      <p class="text-sm text-green-800 italic" *ngIf="vinilo.disponible; else agotado">
+
+        <span class="line-through text-gray-400 mr-2">
+          ${{ vinilo.precio }}
+        </span>
+
+        <span class="font-bold text-green-600">
+          ${{ (vinilo.precio * 0.85) | number:'1.2-2' }}
+        </span>
+
+      </p>
+
+      <ng-template #agotado>
+        <p class="text-sm text-red-600 italic">Agotado</p>
+      </ng-template>
+
+    </div>
+
+    <!-- Botón -->
+    <button (click)="avisarCompra()" [disabled]="!vinilo.disponible"
+      class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 px-4 rounded-lg transition shadow-md">
+      {{ vinilo.disponible ? 'Agregar al carrito' : 'No disponible' }}
+    </button>
+
+  </div>
+</div>

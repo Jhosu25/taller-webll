@@ -1,0 +1,67 @@
+<section class="py-16 bg-gradient-to-b from-slate-50 to-white min-h-screen">
+
+  <div class="max-w-6xl mx-auto px-4">
+
+    <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">Escoge tu mejor Oferta</h2>
+            <p class="mt-4 text-lg text-slate-600">Aprovecha ahora o paga el doble después</p>
+        </div>
+
+        <div class="max-w-2xl mx-auto mb-10 p-4 bg-green-50 border-l-4 border-green-500 rounded-r-lg shadow-sm">
+            <p class="font-medium text-green-700">{{mensajeAviso}}</p>
+        </div>
+
+    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+      <!-- LISTADO -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+
+        <h3 class="text-2xl font-bold mb-6 text-slate-900">
+          Catálogo de Vinilos en Ofertas
+        </h3>
+
+        <ul class="space-y-4">
+          @for (vinilo of vinilos; track vinilo.id) {
+            <li (click)="verDetalles(vinilo)"
+                class="flex justify-between items-center p-4 border border-slate-200 rounded-lg cursor-pointer hover:bg-red-50 transition">
+
+              <div>
+                <p class="font-semibold text-slate-800">
+                  {{vinilo.titulo}}
+                </p>
+                <p class="text-sm text-slate-500">
+                  {{vinilo.artista}} • ${{vinilo.precio}}
+                </p>
+              </div>
+
+              <span class="text-xs bg-red-100 text-red-700 px-3 py-1 rounded-full uppercase font-semibold">
+                Ver detalle
+              </span>
+
+            </li>
+          }
+        </ul>
+
+      </div>
+
+      <!-- DETALLE -->
+      <div class="flex flex-col">
+
+        @if(viniloSeleccionado){
+          <app-detalle-vinilo
+            [vinilo]="viniloSeleccionado"
+            (notificarAccion)="procesarAviso($event)">
+          </app-detalle-vinilo>
+        } @else {
+
+          <div class="h-full bg-white border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center p-10 text-slate-400">
+            Selecciona un vinilo para ver su detalle
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+  </div>
+</section>
