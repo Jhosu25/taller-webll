@@ -1,45 +1,142 @@
-<div class="max-w-5xl mx-auto p-6 bg-slate-50 min-h-screen">
+<div class="max-w-5xl mx-auto p-6 bg-slate-50 min-h-screen mt-15">
 
-    <h1 class="text-3xl font-extrabold text-slate-800 mb-8 border-b-4 border-indigo-500 inline-block">
-        Gestión de Vinilos
-    </h1>
+    <!-- Header -->
+    <div class="mb-10 flex items-center gap-4">
+        <div class="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+            </svg>
+        </div>
+        <div>
+            <h1 class="text-3xl font-extrabold text-slate-800 leading-tight">Gestión de Vinilos</h1>
+            <p class="text-sm text-slate-500 font-medium tracking-wide">Catálogo de discos — Panel de administración</p>
+        </div>
+    </div>
 
-    <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-200 mb-10">
-        <h2 class="text-xl font-bold text-slate-700 mb-4">Registro Rápido</h2>
+    <!-- Formulario -->
+    <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-200 mb-10">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-lg font-bold text-slate-700">{{editando ? 'Editar Vinilo' : 'Registro Rápido'}}</h2>
+                <p class="text-xs text-slate-400">{{editando ? 'Modifica los datos del vinilo seleccionado' : 'Completa los campos para añadir un nuevo vinilo al catálogo'}}</p>
+            </div>
+        </div>
+
         <form (ngSubmit)="guardarVinilo()" class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-            <input [(ngModel)]="nuevoVinilo.titulo" name="titulo" type="text" placeholder="Título" required
-                class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+            <!-- Título -->
+            <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Título</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                        </svg>
+                    </span>
+                    <input [(ngModel)]="nuevoVinilo.titulo" name="titulo" type="text" placeholder="Ej. Dark Side of the Moon" required
+                        class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all text-slate-700 placeholder-slate-300 text-sm bg-slate-50 focus:bg-white">
+                </div>
+            </div>
 
-            <input [(ngModel)]="nuevoVinilo.artista" name="artista" type="text" placeholder="Artista" required
-                class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+            <!-- Artista -->
+            <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Artista</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </span>
+                    <input [(ngModel)]="nuevoVinilo.artista" name="artista" type="text" placeholder="Ej. Pink Floyd" required
+                        class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all text-slate-700 placeholder-slate-300 text-sm bg-slate-50 focus:bg-white">
+                </div>
+            </div>
 
-            <input [(ngModel)]="nuevoVinilo.anio" name="anio" type="text" placeholder="Año" required
-                class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+            <!-- Año -->
+            <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Año</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </span>
+                    <input [(ngModel)]="nuevoVinilo.anio" name="anio" type="text" placeholder="Ej. 1973" required
+                        class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all text-slate-700 placeholder-slate-300 text-sm bg-slate-50 focus:bg-white">
+                </div>
+            </div>
 
-            <input [(ngModel)]="nuevoVinilo.precio" name="precio" type="text" placeholder="Precio" required
-                class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+            <!-- Precio -->
+            <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Precio</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-slate-400 font-bold text-sm">$</span>
+                    <input [(ngModel)]="nuevoVinilo.precio" name="precio" type="text" placeholder="0.00" required
+                        class="w-full pl-8 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all text-slate-700 placeholder-slate-300 text-sm bg-slate-50 focus:bg-white">
+                </div>
+            </div>
 
-            <input [(ngModel)]="nuevoVinilo.stock" name="stock" type="text" placeholder="Stock" required
-                class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+            <!-- Stock -->
+            <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Stock</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                    </span>
+                    <input [(ngModel)]="nuevoVinilo.stock" name="stock" type="text" placeholder="Unidades disponibles" required
+                        class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all text-slate-700 placeholder-slate-300 text-sm bg-slate-50 focus:bg-white">
+                </div>
+            </div>
 
+            <!-- Botón submit -->
             <button type="submit"
-                class="md:col-span-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-indigo-200">
+                class="md:col-span-3 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-indigo-200 text-sm mt-1">
+                @if(editando){
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                    </svg>
+                } @else {
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                }
                 {{editando ? 'Actualizar vinilo' : 'Registrar vinilo'}}
             </button>
         </form>
     </div>
 
+    <!-- Tabla -->
     <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+
+        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <h3 class="font-bold text-slate-700">Catálogo de vinilos</h3>
+            </div>
+            <span class="text-xs bg-indigo-100 text-indigo-700 font-bold px-3 py-1 rounded-full">
+                {{listaVinilos().length}} registros
+            </span>
+        </div>
+
         <table class="w-full text-left border-collapse">
             <thead class="bg-slate-800 text-slate-100">
                 <tr>
-                    <th class="p-4 font-semibold uppercase text-sm">Acciones</th>
-                    <th class="p-4 font-semibold uppercase text-sm">Título</th>
-                    <th class="p-4 font-semibold uppercase text-sm">Artista</th>
-                    <th class="p-4 font-semibold uppercase text-sm">Año</th>
-                    <th class="p-4 font-semibold uppercase text-sm">Precio</th>
-                    <th class="p-4 font-semibold uppercase text-sm">Stock</th>
+                    <th class="p-4 font-semibold uppercase text-xs tracking-wider">Acciones</th>
+                    <th class="p-4 font-semibold uppercase text-xs tracking-wider">Título</th>
+                    <th class="p-4 font-semibold uppercase text-xs tracking-wider">Artista</th>
+                    <th class="p-4 font-semibold uppercase text-xs tracking-wider">Año</th>
+                    <th class="p-4 font-semibold uppercase text-xs tracking-wider">Precio</th>
+                    <th class="p-4 font-semibold uppercase text-xs tracking-wider">Stock</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,22 +144,53 @@
                 <tr class="border-b border-slate-100 hover:bg-indigo-50 transition-colors">
                     <td class="p-4 text-slate-500 font-mono text-xs">
                         @if(servicioAuth.rolActual() === 'ADMIN'){
-                        <button (click)="seleccionarParaEditar(vinilo)" class="pr-10">✏️</button>
-                        <button (click)="eliminarVinilo(vinilo.id!)">🗑️</button>
+                        <div class="flex items-center gap-2">
+                            <button (click)="seleccionarParaEditar(vinilo)"
+                                title="Editar"
+                                class="w-8 h-8 flex items-center justify-center rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-600 hover:text-amber-700 transition-all active:scale-90">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg>
+                            </button>
+                            <button (click)="eliminarVinilo(vinilo.id!)"
+                                title="Eliminar"
+                                class="w-8 h-8 flex items-center justify-center rounded-lg bg-red-100 hover:bg-red-200 text-red-500 hover:text-red-700 transition-all active:scale-90">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
+                        </div>
                         }@else {
-                            <span>🔐</span>
+                        <span class="inline-flex items-center gap-1 text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            Sin acceso
+                        </span>
                         }
                     </td>
                     <td class="p-4 text-slate-800 font-medium">{{vinilo.titulo}}</td>
                     <td class="p-4 text-slate-600">{{vinilo.artista}}</td>
                     <td class="p-4 text-slate-600">{{vinilo.anio}}</td>
-                    <td class="p-4 text-slate-600">${{vinilo.precio}}</td>
-                    <td class="p-4 text-slate-600">{{vinilo.stock}}</td>
+                    <td class="p-4 text-slate-600">
+                        <span class="font-semibold text-indigo-600">${{vinilo.precio}}</span>
+                    </td>
+                    <td class="p-4">
+                        <span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-full">
+                            {{vinilo.stock}} uds.
+                        </span>
+                    </td>
                 </tr>
                 }@empty{
                 <tr>
-                    <td colspan="7" class="p-8 text-center text-slate-400 italic">
-                        Cargando vinilos desde la API...
+                    <td colspan="7" class="p-12 text-center">
+                        <div class="flex flex-col items-center gap-3 text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-slate-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                            </svg>
+                            <p class="font-medium text-slate-400">Cargando vinilos desde la API...</p>
+                            <p class="text-xs text-slate-300">Los registros aparecerán aquí en breve</p>
+                        </div>
                     </td>
                 </tr>}
             </tbody>

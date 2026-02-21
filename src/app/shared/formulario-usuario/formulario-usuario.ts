@@ -3,10 +3,11 @@ import { Usuario } from '../../models/usuario';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { UsuarioService } from '../../services/usuario-service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-formulario',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './formulario-usuario.html',
   styleUrl: './formulario-usuario.css',
 })

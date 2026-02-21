@@ -8,6 +8,7 @@ import { Usuarios } from './features/usuarios/usuarios';
 import { Login } from './shared/login/login';
 import { authGuard } from './guards/auth-guard';
 import { Formulario } from './shared/formulario-usuario/formulario-usuario';
+import { Registro } from './shared/registro/registro';
 
 export const routes: Routes = [
 
@@ -18,8 +19,9 @@ export const routes: Routes = [
     {path:'acerca', component:Acerca},
     {path:'catalogo', component:ProductCard},
     {path:'consultas', component:Consultas},
+    {path:'registro', component:Registro},
     {path:'usuarios', component:Usuarios, canActivate:[authGuard]},
-    {path:'registro', component:Formulario},
+    {path:'registro-admin', component:Formulario, canActivate:[authGuard]},
     {path:'login', component:Login},
 
     //Redireccionamiento (pag-404) o ruta que no exite dentro del enrutamineto
