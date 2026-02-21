@@ -14,7 +14,13 @@
             <input [(ngModel)]="nuevoVinilo.artista" name="artista" type="text" placeholder="Artista" required
                 class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
 
-            <input [(ngModel)]="nuevoVinilo.anio" name="anio" type="number" placeholder="Año" required
+            <input [(ngModel)]="nuevoVinilo.anio" name="anio" type="text" placeholder="Año" required
+                class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+
+            <input [(ngModel)]="nuevoVinilo.precio" name="precio" type="text" placeholder="Precio" required
+                class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+
+            <input [(ngModel)]="nuevoVinilo.stock" name="stock" type="text" placeholder="Stock" required
                 class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
 
             <button type="submit"
@@ -29,20 +35,24 @@
             <thead class="bg-slate-800 text-slate-100">
                 <tr>
                     <th class="p-4 font-semibold uppercase text-sm">Acciones</th>
-                    <th class="p-4 font-semibold uppercase text-sm">ID</th>
                     <th class="p-4 font-semibold uppercase text-sm">Título</th>
                     <th class="p-4 font-semibold uppercase text-sm">Artista</th>
                     <th class="p-4 font-semibold uppercase text-sm">Año</th>
+                    <th class="p-4 font-semibold uppercase text-sm">Precio</th>
+                    <th class="p-4 font-semibold uppercase text-sm">Stock</th>
                 </tr>
             </thead>
             <tbody>
                 @for (vinilo of listaVinilos(); track vinilo.id){
                 <tr class="border-b border-slate-100 hover:bg-indigo-50 transition-colors">
                     <td class="p-4 text-slate-500 font-mono text-xs">
+                        @if(servicioAuth.rolActual() === 'ADMIN'){
                         <button (click)="seleccionarParaEditar(vinilo)" class="pr-10">✏️</button>
                         <button (click)="eliminarVinilo(vinilo.id!)">🗑️</button>
+                        }@else {
+                            <span>🔐</span>
+                        }
                     </td>
-                    <td class="p-4 text-slate-500 font-mono text-xs">{{vinilo.id}}</td>
                     <td class="p-4 text-slate-800 font-medium">{{vinilo.titulo}}</td>
                     <td class="p-4 text-slate-600">{{vinilo.artista}}</td>
                     <td class="p-4 text-slate-600">{{vinilo.anio}}</td>

@@ -3,6 +3,7 @@ import { ViniloService } from '../../services/vinilo-service';
 import { Vinilo } from '../../models/vinilo';
 import { ViniloForm } from '../../models/vinilo-forms';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-formulario-vinilo',
@@ -14,6 +15,8 @@ import { FormsModule } from '@angular/forms';
 export class FormularioVinilo {
 
   private servicioVinilo = inject(ViniloService);
+
+  public servicioAuth = inject(AuthService);
 
   listaVinilos = signal<Vinilo[]>([]);
 
