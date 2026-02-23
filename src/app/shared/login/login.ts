@@ -2,12 +2,12 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../../services/auth-service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
@@ -23,7 +23,7 @@ export class Login {
     this.servicioAuth.login(this.email, this.password).subscribe(success => {
       if (success) {
         alert('Bienvenido al sistema');
-        this.router.navigate(['/usuarios']);
+        this.router.navigate(['/']);
       } else {
         alert('Usuario o contraseña incorrectos');
       }

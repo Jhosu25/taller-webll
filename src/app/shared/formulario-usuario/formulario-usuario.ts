@@ -85,5 +85,4 @@ resetear(){
   this.nuevoUsuario={name:'', email:'', phone:'', password:'', rol:'EMPLEADO'};
 }
 
-
 }

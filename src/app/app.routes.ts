@@ -13,7 +13,7 @@ import { Registro } from './shared/registro/registro';
 export const routes: Routes = [
 
     //Ruta Inicial
-    {path:'home', component:Home},
+    {path:'', component:Home},
 
     //Rutas de navegacion
     {path:'acerca', component:Acerca},

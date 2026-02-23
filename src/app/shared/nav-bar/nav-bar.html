@@ -26,7 +26,7 @@
 
         <!-- Siempre visibles -->
         <li>
-          <a routerLink="home"
+          <a routerLink="/"
             class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
             aria-current="page">Home</a>
         </li>
@@ -43,27 +43,29 @@
             class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Ofertas</a>
         </li>
 
-        <!-- Solo si hay sesión activa (EMPLEADO o ADMIN) -->
-        @if(servicioAuth.rolActual()){
+        <!-- Regístrate: solo si NO hay sesión activa -->
+        @if(!servicioAuth.rolActual()){
+        <li>
+          <a routerLink="registro"
+            class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Regístrate</a>
+        </li>
+        }
+
+        <!-- Registrar Vinilo: solo si está logueado un EMPLEADO -->
+        @if(servicioAuth.rolActual() === 'EMPLEADO'){
         <li>
           <a routerLink="usuarios"
             class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Registrar Vinilo</a>
         </li>
         }
 
-        <!-- Solo si es ADMIN -->
+        <!-- Usuarios Registrados: solo si es ADMIN -->
         @if(servicioAuth.rolActual() === 'ADMIN'){
         <li>
           <a routerLink="registro-admin"
             class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Usuarios Registrados</a>
         </li>
         }
-
-        <!-- Siempre visibles -->
-        <li>
-          <a routerLink="registro"
-            class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Regístrate</a>
-        </li>
 
         <!-- Login / Logout según sesión -->
         @if(servicioAuth.rolActual()){
