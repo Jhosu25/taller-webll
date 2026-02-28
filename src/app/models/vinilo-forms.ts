@@ -1,8 +1,9 @@
-export interface ViniloForm {
-    titulo: string;
-    artista: string;
-    anio: number;
-    precio: number;
-    stock: number;
-    disponible: boolean;
+
+export interface Vinilo {
+  id?: number;
+  titulo: string;
+  artista: string;
+  anio: string;      
+  precio: number;   
+  stock: number;    
 }

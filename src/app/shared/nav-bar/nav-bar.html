@@ -52,7 +52,7 @@
         }
 
         <!-- Registrar Vinilo: solo si está logueado un EMPLEADO -->
-        @if(servicioAuth.rolActual() === 'EMPLEADO'){
+        @if(servicioAuth.rolActual() === 'ROLE_EMPLEADO'){
         <li>
           <a routerLink="usuarios"
             class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Registrar Vinilo</a>
@@ -60,7 +60,7 @@
         }
 
         <!-- Usuarios Registrados: solo si es ADMIN -->
-        @if(servicioAuth.rolActual() === 'ADMIN'){
+        @if(servicioAuth.rolActual() === 'ROLE_ADMIN'){
         <li>
           <a routerLink="registro-admin"
             class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Usuarios Registrados</a>

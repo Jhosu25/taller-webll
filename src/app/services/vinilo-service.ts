@@ -1,42 +1,40 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Vinilo } from '../models/vinilo';
-import { map, Observable } from 'rxjs';
-
+import { Vinilo } from '../models/vinilo-forms';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ViniloService {
+
   private http = inject(HttpClient);
-  private API_VINILOS = 'https://app-fire-d9ae2-default-rtdb.firebaseio.com';
 
-getVinilos(): Observable<Vinilo[]> {
-  return this.http
-    .get<{ [key: string]: Vinilo }>(`${this.API_VINILOS}/vinilos.json`)
-    .pipe(
-      map((data) => {
-        if (!data) return [];
+  // ✅ Apunta a tu API de Spring Boot
+  private API_VINILOS = 'http://localhost:8080/vinilos';
 
-        return Object.entries(data).map(([key, value]) => ({
-          ...value,
-          id: key // 👈 Firebase Realtime DB usa la key como id
-        }));
-      })
-    );
-}
+  // GET — obtener todos los vinilos
+  getVinilos(): Observable<Vinilo[]> {
+    return this.http.get<Vinilo[]>(this.API_VINILOS);
+  }
 
+  // GET por ID
+  getViniloById(id: number): Observable<Vinilo> {
+    return this.http.get<Vinilo>(`${this.API_VINILOS}/${id}`);
+  }
 
-
+  // POST — registrar nuevo vinilo
   postVinilo(vinilo: Vinilo): Observable<Vinilo> {
-    return this.http.post<Vinilo>(`${this.API_VINILOS}/vinilos.json`, vinilo);
+    return this.http.post<Vinilo>(this.API_VINILOS, vinilo);
   }
 
-  putVinilo(id: string, vinilo: Vinilo): Observable<Vinilo> {
-    return this.http.put<Vinilo>(`${this.API_VINILOS}/vinilos/${id}.json`, vinilo);
+  // PUT — actualizar vinilo existente
+  putVinilo(id: number, vinilo: Vinilo): Observable<Vinilo> {
+    return this.http.put<Vinilo>(`${this.API_VINILOS}/${id}`, vinilo);
   }
 
-  deleteVinilo(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.API_VINILOS}/vinilos/${id}.json`);
+  // DELETE — eliminar vinilo
+  deleteVinilo(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.API_VINILOS}/${id}`);
   }
 }

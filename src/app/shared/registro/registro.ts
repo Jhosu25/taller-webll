@@ -1,11 +1,13 @@
-import { Component, inject } from '@angular/core';
-import { UsuarioService } from '../../services/usuario-service';
+import { Component } from '@angular/core';
 import { Usuario } from '../../models/usuario';
+import { UsuarioService } from '../../services/usuario-service';
+import { inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-registro',
+  standalone: true,
   imports: [FormsModule, RouterLink],
   templateUrl: './registro.html',
   styleUrl: './registro.css',
@@ -13,26 +15,32 @@ import { RouterLink } from '@angular/router';
 export class Registro {
 
   private servicioUsuario = inject(UsuarioService);
+  private router = inject(Router);
 
+  // ✅ nombre (no name), rol con prefijo ROLE_
   nuevoUsuario: Usuario = {
-    name: '',
+    nombre: '',
     email: '',
     phone: '',
     password: '',
-    rol: 'EMPLEADO'
+    rol: 'ROLE_EMPLEADO'
   };
 
-  registrado = false;
-
-  guardarUsuario() {
+  registrar() {
     this.servicioUsuario.postUsuarios(this.nuevoUsuario).subscribe(() => {
-      this.resetear();
-      this.registrado = true; // opcional: mostrar mensaje de éxito
+      alert('Usuario registrado correctamente');
+      this.router.navigate(['/login']);
     });
   }
 
+  // ✅ nombre (no name), rol con prefijo ROLE_
   resetear() {
-    this.nuevoUsuario = { name: '', email: '', phone: '', password: '', rol: 'EMPLEADO' };
+    this.nuevoUsuario = {
+      nombre: '',
+      email: '',
+      phone: '',
+      password: '',
+      rol: 'ROLE_EMPLEADO'
+    };
   }
-
 }

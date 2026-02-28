@@ -1,8 +1,16 @@
-export interface Usuario{
-    id?: string;
-    name:string;
-    email:string;
-    phone:string;
-    password:string;
-    rol: 'ADMIN' | 'EMPLEADO';
+
+export interface Usuario {
+    id?: number;
+    nombre: string;
+    email: string;
+    password: string;
+    phone?: string;
+    rol: 'ROLE_ADMIN' | 'ROLE_EMPLEADO';
+}
+
+// Lo que devuelve el endpoint POST /login
+export interface LoginResponse {
+    token: string;
+    email: string;
+    rol: string;
 }

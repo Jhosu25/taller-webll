@@ -1,7 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { ViniloService } from '../../services/vinilo-service';
-import { Vinilo } from '../../models/vinilo';
-import { ViniloForm } from '../../models/vinilo-forms';
+import { Vinilo } from '../../models/vinilo-forms';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 
@@ -12,24 +11,22 @@ import { AuthService } from '../../services/auth-service';
   templateUrl: './formulario.html',
   styleUrls: ['./formulario.css'],
 })
-export class FormularioVinilo {
+export class FormularioVinilo implements OnInit {
 
   private servicioVinilo = inject(ViniloService);
-
   public servicioAuth = inject(AuthService);
 
   listaVinilos = signal<Vinilo[]>([]);
 
-  // Guardamos el id aparte cuando editamos
-  idEnEdicion: string | null = null;
+  idEnEdicion: number | null = null;
 
-  nuevoVinilo: ViniloForm = {
+  // ✅ Campos exactos que acepta la API (sin imagen, generos, etc.)
+  nuevoVinilo: Omit<Vinilo, 'id'> = {
     titulo: '',
     artista: '',
-    anio: new Date().getFullYear(),
+    anio: String(new Date().getFullYear()), // anio es String en la API
     precio: 0,
     stock: 0,
-    disponible: true,
   };
 
   editando = false;
@@ -45,34 +42,22 @@ export class FormularioVinilo {
   }
 
   guardarVinilo() {
-
-    const viniloCompleto: Vinilo = {
-      id: this.idEnEdicion ?? crypto.randomUUID(),
-      imagen: '',
-      generos: [],
-      formato: '',
-      label: '',
-      condicion: '',
-      precioOriginal: undefined,
-      ...this.nuevoVinilo
-    };
-
-    if (this.editando && this.idEnEdicion) {
-      this.servicioVinilo.putVinilo(this.idEnEdicion, viniloCompleto)
-        .subscribe(() => {
-          this.obtenerVinilos();
-          this.resetear();
-        });
+    if (this.editando && this.idEnEdicion !== null) {
+      const viniloActualizado: Vinilo = { id: this.idEnEdicion, ...this.nuevoVinilo };
+      this.servicioVinilo.putVinilo(this.idEnEdicion, viniloActualizado).subscribe(() => {
+        this.obtenerVinilos();
+        this.resetear();
+      });
     } else {
-      this.servicioVinilo.postVinilo(viniloCompleto)
-        .subscribe(() => {
-          this.obtenerVinilos();
-          this.resetear();
-        });
+      // POST — Spring Boot genera el id automáticamente con @GeneratedValue
+      this.servicioVinilo.postVinilo(this.nuevoVinilo as Vinilo).subscribe(() => {
+        this.obtenerVinilos();
+        this.resetear();
+      });
     }
   }
 
-  eliminarVinilo(id: string ) {
+  eliminarVinilo(id: number) {
     if (confirm('¿Desea eliminar este vinilo?')) {
       this.servicioVinilo.deleteVinilo(id).subscribe(() => {
         this.obtenerVinilos();
@@ -82,29 +67,25 @@ export class FormularioVinilo {
 
   seleccionarParaEditar(vinilo: Vinilo) {
     this.editando = true;
-    this.idEnEdicion = vinilo.id;
-
+    this.idEnEdicion = vinilo.id!;
     this.nuevoVinilo = {
       titulo: vinilo.titulo,
       artista: vinilo.artista,
       anio: vinilo.anio,
       precio: vinilo.precio,
       stock: vinilo.stock,
-      disponible: vinilo.disponible,
     };
   }
 
   resetear() {
     this.editando = false;
     this.idEnEdicion = null;
-
     this.nuevoVinilo = {
       titulo: '',
       artista: '',
-      anio: new Date().getFullYear(),
+      anio: String(new Date().getFullYear()),
       precio: 0,
       stock: 0,
-      disponible: true,
     };
   }
 }

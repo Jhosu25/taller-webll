@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Usuario } from '../models/usuario';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,39 +10,31 @@ export class UsuarioService {
 
   private http = inject(HttpClient);
 
-  private API_USUARIOS = 'https://app-fire-d9ae2-default-rtdb.firebaseio.com';
+  // ✅ El token JWT se adjunta automáticamente por el authInterceptor
+  private API_USUARIOS = 'http://localhost:8080/usuarios';
 
-  /*/Metodo GET
-  getUsuarios():Observable<Usuario[]>{
+  // GET /usuarios — requiere ROLE_ADMIN
+  getUsuarios(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.API_USUARIOS);
-  }*/
- 
-  getUsuarios():Observable<Usuario[]>{
-    return this.http.get<{[key:string]:Usuario}>(`${this.API_USUARIOS}/usuarios.json`).pipe(
-      map(respuesta => {
-        if(!respuesta){
-          return [];
-        }
-        return Object.keys(respuesta).map(id => {
-          const usuarioConId = {...respuesta[id], id:id};
-          return usuarioConId;
-        })
-      })
-    )
-  }
-  
-  //Método POST
-  postUsuarios(usuario: Usuario):Observable<Usuario>{
-    return this.http.post<Usuario>(`${this.API_USUARIOS}/usuarios.json`, usuario);
   }
 
-  //Metodo PUT
-  putUsuario(id:string, usuario:Usuario):Observable<Usuario>{
-    return this.http.put<Usuario>(`${this.API_USUARIOS}/usuarios/${id}.json`, usuario);
+  // GET /usuarios/:id — requiere ROLE_ADMIN
+  getUsuarioById(id: number): Observable<Usuario> {
+    return this.http.get<Usuario>(`${this.API_USUARIOS}/${id}`);
   }
 
-  //Metodo Delete
-  deleteUsuario(id:string):Observable<void>{
-    return this.http.delete<void>(`${this.API_USUARIOS}/usuarios/${id}.json`);
+  // POST /usuarios/registerUser — público (permitAll en SecurityConfig)
+  postUsuarios(usuario: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(`${this.API_USUARIOS}/registerUser`, usuario);
+  }
+
+  // PUT /usuarios/:id — requiere ROLE_ADMIN
+  putUsuario(id: number, usuario: Usuario): Observable<Usuario> {
+    return this.http.put<Usuario>(`${this.API_USUARIOS}/${id}`, usuario);
+  }
+
+  // DELETE /usuarios/:id — requiere ROLE_ADMIN
+  deleteUsuario(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.API_USUARIOS}/${id}`);
   }
 }
